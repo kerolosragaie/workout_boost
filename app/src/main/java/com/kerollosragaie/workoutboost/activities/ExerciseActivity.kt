@@ -1,6 +1,8 @@
 package com.kerollosragaie.workoutboost.activities
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import com.kerollosragaie.workoutboost.Constants
 import com.kerollosragaie.workoutboost.R
 import com.kerollosragaie.workoutboost.adapters.ExerciseStatusAdapter
 import com.kerollosragaie.workoutboost.databinding.ActivityExerciseBinding
+import com.kerollosragaie.workoutboost.databinding.DialogCustomLayoutBinding
 import com.kerollosragaie.workoutboost.models.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
@@ -40,7 +43,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var mediaPlayer: MediaPlayer
 
     //***
-    private lateinit var exerciseAdapter : ExerciseStatusAdapter
+    private lateinit var exerciseAdapter: ExerciseStatusAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +63,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     //*** Setup exercise status RV
-    private fun setUpExerciseStatusRV(){
+    private fun setUpExerciseStatusRV() {
         binding.rvExerciseStatus.layoutManager =
-            LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         exerciseAdapter = ExerciseStatusAdapter(exercisesList!!)
 
@@ -78,9 +81,35 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         binding.toolbarExercise.setNavigationOnClickListener {
-            onBackPressed()
+            customDialogShow()
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    //*** for custom  dialog
+    private fun customDialogShow() {
+        val customDialog = Dialog(this)
+        //? it is a separate xml file so it needs its own binding
+        val dialogBinding = DialogCustomLayoutBinding.inflate(layoutInflater)
+        customDialog.setContentView(dialogBinding.root)
+        customDialog.setCanceledOnTouchOutside(false) // cannot close on touch outside of dialog
+
+        dialogBinding.btnYes.setOnClickListener {
+            this@ExerciseActivity.finish()
+            customDialog.dismiss()
+        }
+
+        dialogBinding.btnNo.setOnClickListener {
+            customDialog.dismiss()
+        }
+
+        customDialog.show()
+
+    }
+
+    override fun onBackPressed() {
+        customDialogShow()
+        //super.onBackPressed()  //no need to it as it will finish current activity
     }
 
     //*** For TTS
@@ -142,11 +171,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         /**
          * @countDownInterval every 1 sec (1000 ms) onTick function works
          * */
-        restCountDownTimer = object : CountDownTimer(11000, 1000) {
+        restCountDownTimer = object : CountDownTimer(1000, 1000) {
             override fun onTick(p0: Long) {
                 restProgress++
-                binding.restLayout.progressBar.progress = 11 - restProgress
-                binding.restLayout.tvTimer.text = (11 - restProgress).toString()
+                binding.restLayout.progressBar.progress = 1 - restProgress
+                binding.restLayout.tvTimer.text = (1 - restProgress).toString()
             }
 
             @SuppressLint("NotifyDataSetChanged")
@@ -208,8 +237,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     if (currentExercisePosition < exercisesList!!.size - 1) {
                         setUpRestCountDownTimer()
                     } else {
-                        //TODO jump to finish screen
-                        speakOut("Congratulations! You have completed all the workouts.")
+                        val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }
                 }
             }.start()

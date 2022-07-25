@@ -3,4 +3,10 @@
     <string name="get_ready">Get ready</string>
     <string name="exercise_name">Exercise Name</string>
     <string name="upcoming_exercise">Upcoming Exercise:</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_have_completed_the_workout">You have completed the workout</string>
+    <string name="finish">Finish</string>
+    <string name="the_end">The End</string>
+    <string name="custom_dialog_title">Are you sure?</string>
+    <string name="custom_dialog_body">This will stop your workout. You\'ve come this far, are you sure you want to quit?</string>
 </resources>
