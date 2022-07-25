@@ -1,5 +1,6 @@
 package com.kerollosragaie.workoutboost.activities
 
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +9,10 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerollosragaie.workoutboost.Constants
 import com.kerollosragaie.workoutboost.R
+import com.kerollosragaie.workoutboost.adapters.ExerciseStatusAdapter
 import com.kerollosragaie.workoutboost.databinding.ActivityExerciseBinding
 import com.kerollosragaie.workoutboost.models.Exercise
 import java.util.*
@@ -36,6 +39,10 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     //*** Media player
     private lateinit var mediaPlayer: MediaPlayer
 
+    //***
+    private lateinit var exerciseAdapter : ExerciseStatusAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExerciseBinding.inflate(layoutInflater)
@@ -49,6 +56,17 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         settingUpTTS()
 
+        setUpExerciseStatusRV()
+    }
+
+    //*** Setup exercise status RV
+    private fun setUpExerciseStatusRV(){
+        binding.rvExerciseStatus.layoutManager =
+            LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+
+        exerciseAdapter = ExerciseStatusAdapter(exercisesList!!)
+
+        binding.rvExerciseStatus.adapter = exerciseAdapter
     }
 
     //*** For app toolbar
@@ -131,9 +149,15 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 binding.restLayout.tvTimer.text = (11 - restProgress).toString()
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onFinish() {
                 binding.restLayout.restLayout.visibility = View.GONE
                 currentExercisePosition++ //Go to next exercise
+
+                exercisesList!![currentExercisePosition].setIsSelected(true)
+                //? Will call onBindViewHolder again with the new updated data
+                exerciseAdapter.notifyDataSetChanged()
+
                 setUpExerciseCountDownTimer()
             }
         }.start()
@@ -173,7 +197,13 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         ((exercisePractiseTime + 1) - exerciseProgress).toString()
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onFinish() {
+                    exercisesList!![currentExercisePosition].setIsSelected(false)
+                    exercisesList!![currentExercisePosition].setIsCompleted(true)
+                    //? Will call onBindViewHolder again with the new updated data
+                    exerciseAdapter.notifyDataSetChanged()
+
                     binding.exerciseLayout.exerciseLayout.visibility = View.GONE
                     if (currentExercisePosition < exercisesList!!.size - 1) {
                         setUpRestCountDownTimer()

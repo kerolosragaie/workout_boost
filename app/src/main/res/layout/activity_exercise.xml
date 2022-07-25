@@ -16,34 +16,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/colorAccent">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
             android:layout_gravity="center"
-            android:textSize="@dimen/default_text_size_textview"
-            android:textColor="@color/colorPrimary"/>
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/default_text_size_textview" />
     </androidx.appcompat.widget.Toolbar>
 
     <include
         android:id="@+id/rest_layout"
         layout="@layout/layout_rest_model"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarExercise"
-        />
-
-    <include
-        android:id="@+id/exercise_layout"
-        layout="@layout/layout_exercise_model"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarExercise" />
+
+    <include
+        android:id="@+id/exercise_layout"
+        layout="@layout/layout_exercise_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarExercise" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_exercise_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
