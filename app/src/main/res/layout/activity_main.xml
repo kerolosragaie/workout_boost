@@ -12,29 +12,62 @@
         android:layout_width="match_parent"
         android:layout_height="380dp"
         android:src="@drawable/workout"
+        app:layout_constraintBottom_toTopOf="@id/flStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/flStart"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gIVworkout"
         android:id="@+id/flStart"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/button_circular_border_ripple_bg">
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/button_circular_border_ripple_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gIVworkout">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Start"
+            android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/default_text_size_button"
-            android:layout_gravity="center"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_bmi_calculator"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+       android:background="@drawable/item_circular_color_accent_background"
+        app:layout_constraintTop_toBottomOf="@id/flStart">
+
+        <TextView
+            android:id="@+id/tv_exercise_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BMI"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textAllCaps="true"/>
+            android:layout_gravity="center"/>
 
     </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calculator"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_bmi_calculator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

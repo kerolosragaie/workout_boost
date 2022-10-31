@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.kerollosragaie.workoutboost">
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- ? enable TTS for Android 11 and above -->
     <queries>
         <intent>
@@ -19,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkoutBoost"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.BMIActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.FinishActivity"
             android:exported="false" />
