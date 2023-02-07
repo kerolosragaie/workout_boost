@@ -12,4 +12,6 @@
     <string name="calculator">Calculator</string>
     <string name="bmi_calculator">BMI Calculator</string>
     <string name="calculate">CALCULATE</string>
+    <string name="start">Start</string>
+    <string name="bmi">BMI</string>
 </resources>

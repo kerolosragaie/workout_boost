@@ -24,13 +24,14 @@ import kotlin.collections.ArrayList
 class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var binding: ActivityExerciseBinding
 
-    //***For countdown timer
+    //***For rest countdown timer
     private var restCountDownTimer: CountDownTimer? = null
     private var restProgress: Int = 0
 
     //*** For exercise countdown timer
     private var exerciseCountDownTimer: CountDownTimer? = null
     private var exerciseProgress: Int = 0
+    private var pauseOffset: Long = 0
 
     //*** Get exercises list
     private var exercisesList: ArrayList<Exercise>? = null
@@ -44,7 +45,6 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     //***
     private lateinit var exerciseAdapter: ExerciseStatusAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,13 +74,14 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     //*** For app toolbar
     private fun settingUpToolBar() {
-        setSupportActionBar(binding.toolbarExercise)
+        setSupportActionBar(binding.toolbarExerciseActivity)
         //*** shows top back button
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
-        binding.toolbarExercise.setNavigationOnClickListener {
+        binding.toolbarExerciseActivity.setNavigationOnClickListener {
+            pauseCountDownTimer()
             customDialogShow()
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -101,6 +102,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         dialogBinding.btnNo.setOnClickListener {
             customDialog.dismiss()
+            setExerciseProgressBar(pauseOffset+1000) //+1000 to prevent counter reach -1 (if +2000 so counter reaches -2)
         }
 
         customDialog.show()
@@ -174,8 +176,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         restCountDownTimer = object : CountDownTimer(1000, 1000) {
             override fun onTick(p0: Long) {
                 restProgress++
-                binding.restLayout.progressBar.progress = 1 - restProgress
-                binding.restLayout.tvTimer.text = (1 - restProgress).toString()
+                binding.restLayout.progressBar.progress = (exercisesList!![currentExercisePosition + 1].getRestingTime()) - restProgress
+                binding.restLayout.tvTimer.text = ((exercisesList!![currentExercisePosition + 1].getRestingTime()) - restProgress).toString()
             }
 
             @SuppressLint("NotifyDataSetChanged")
@@ -198,10 +200,10 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             exerciseCountDownTimer?.cancel()
             exerciseProgress = 0
         }
-        setExerciseProgressBar()
+        setExerciseProgressBar(pauseOffset)
     }
 
-    private fun setExerciseProgressBar() {
+    private fun setExerciseProgressBar(pauseOffsetL: Long) {
         if (binding.exerciseLayout.exerciseLayout.visibility == View.GONE) {
             binding.exerciseLayout.exerciseLayout.visibility = View.VISIBLE
         }
@@ -212,13 +214,17 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             exercisesList!![currentExercisePosition].getName()
         binding.exerciseLayout.ivExerciseImage.setImageResource(exercisesList!![currentExercisePosition].getImage())
 
-        speakOut("${exercisesList!![currentExercisePosition].getName()} exercise")
+        if(pauseOffset==0L){
+            speakOut("${exercisesList!![currentExercisePosition].getName()} exercise")
+        }
+
 
         val exercisePractiseTime = exercisesList!![currentExercisePosition].getPractisingTime()
 
         exerciseCountDownTimer =
-            object : CountDownTimer(((exercisePractiseTime + 1) * 1000).toLong(), 1000) {
-                override fun onTick(p0: Long) {
+            object : CountDownTimer((((exercisePractiseTime + 1) * 1000).toLong() - pauseOffsetL), 1000) {
+                override fun onTick(millisUntilFinish: Long) {
+                    pauseOffset = ((exercisePractiseTime + 1) * 1000) - millisUntilFinish
                     exerciseProgress++
                     binding.exerciseLayout.progressbarExercise.progress =
                         (exercisePractiseTime + 1) - exerciseProgress
@@ -241,8 +247,16 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         startActivity(intent)
                         finish()
                     }
+                    pauseOffset=0
                 }
             }.start()
+
+    }
+
+    private fun pauseCountDownTimer(){
+        if(exerciseCountDownTimer!=null){
+            exerciseCountDownTimer!!.cancel()
+        }
     }
 
     override fun onDestroy() {

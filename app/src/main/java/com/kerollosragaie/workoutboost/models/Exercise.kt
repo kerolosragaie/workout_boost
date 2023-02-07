@@ -5,6 +5,7 @@ class Exercise(
     private var name:String,
     private var image:Int,
     private var practisingTime:Int=4,
+    private var restingTime:Int=1,
     private var isCompleted:Boolean = false,
     private var isSelected:Boolean = false
 ){
@@ -38,6 +39,14 @@ class Exercise(
 
     fun setPractisingTime(practisingTime:Int){
         this.practisingTime = practisingTime
+    }
+
+    fun getRestingTime():Int{
+        return this.restingTime
+    }
+
+    fun setRestingTime(restingTime: Int){
+        this.restingTime = restingTime
     }
 
     fun getIsCompleted():Boolean{

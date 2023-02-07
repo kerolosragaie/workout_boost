@@ -7,7 +7,7 @@
     tools:context=".activities.ExerciseActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarExercise"
+        android:id="@+id/toolbar_exercise_activity"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/white"
@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:text="@string/app_name"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/default_text_size_textview" />
+            android:textSize="@dimen/textview_default_text_size" />
     </androidx.appcompat.widget.Toolbar>
 
     <include
@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarExercise" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_exercise_activity" />
 
     <include
         android:id="@+id/exercise_layout"
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarExercise" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_exercise_activity" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_exercise_status"
@@ -53,6 +53,7 @@
         android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

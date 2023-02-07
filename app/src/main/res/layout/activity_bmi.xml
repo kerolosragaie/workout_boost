@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:text="@string/bmi_calculator"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/default_text_size_textview" />
+            android:textSize="@dimen/textview_default_text_size" />
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.textfield.TextInputLayout

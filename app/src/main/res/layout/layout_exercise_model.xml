@@ -25,11 +25,12 @@
         android:text="@string/exercise_name"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
-        android:textSize="@dimen/default_text_size_textview"
+        android:textSize="@dimen/textview_default_text_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_exercise_image" />
+        app:layout_constraintTop_toBottomOf="@id/iv_exercise_image"
+        app:layout_constraintBottom_toTopOf="@id/fl_exercise_progressbar"/>
 
     <FrameLayout
         android:id="@+id/fl_exercise_progressbar"
@@ -52,7 +53,7 @@
             android:max="30"
             android:progress="100"
             android:progressDrawable="@drawable/circular_progress_bar"
-            android:rotation="-90" />
+            android:rotation="-90"/>
 
         <LinearLayout
             android:layout_width="60dp"
@@ -66,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/default_text_size_textview"
+                android:textSize="@dimen/textview_default_text_size"
                 android:textStyle="bold"
                 tools:text="30" />
         </LinearLayout>
