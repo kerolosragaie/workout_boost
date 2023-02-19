@@ -43,7 +43,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     //*** Media player
     private lateinit var mediaPlayer: MediaPlayer
 
-    //***
+    //*** For showing the current exercise in progress
     private lateinit var exerciseAdapter: ExerciseStatusAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -158,7 +158,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         binding.restLayout.tvUpcomingExercise.text =
             exercisesList!![currentExercisePosition + 1].getName()
 
-        //For media player
+        //For media player to play sounds
         try {
             val soundURI = Uri.parse(
                 "android.resource://com.kerollosragaie.workoutboost/" + R.raw.start_sound
@@ -238,7 +238,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     exercisesList!![currentExercisePosition].setIsCompleted(true)
                     //? Will call onBindViewHolder again with the new updated data
                     exerciseAdapter.notifyDataSetChanged()
-
+                    //? Hide the exercise layout
                     binding.exerciseLayout.exerciseLayout.visibility = View.GONE
                     if (currentExercisePosition < exercisesList!!.size - 1) {
                         setUpRestCountDownTimer()

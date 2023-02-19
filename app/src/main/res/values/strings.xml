@@ -2,7 +2,7 @@
     <string name="app_name">Workout Boost</string>
     <string name="get_ready">Get ready</string>
     <string name="exercise_name">Exercise Name</string>
-    <string name="upcoming_exercise">Upcoming Exercise:</string>
+    <string name="upcoming_exercise">Upcoming Exercise</string>
     <string name="congratulations">Congratulations!</string>
     <string name="you_have_completed_the_workout">You have completed the workout</string>
     <string name="finish">Finish</string>
@@ -14,4 +14,7 @@
     <string name="calculate">CALCULATE</string>
     <string name="start">Start</string>
     <string name="bmi">BMI</string>
+    <string name="metric_units">METRIC UNITS</string>
+    <string name="us_units">US UNITS</string>
+    <string name="your_bmi">YOUR BMI</string>
 </resources>

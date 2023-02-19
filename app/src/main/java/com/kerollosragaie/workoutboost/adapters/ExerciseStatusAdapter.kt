@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kerollosragaie.workoutboost.R
-import com.kerollosragaie.workoutboost.databinding.ActivityExerciseBinding
 import com.kerollosragaie.workoutboost.databinding.ItemExerciseStatusBinding
 import com.kerollosragaie.workoutboost.models.Exercise
 
@@ -19,8 +18,7 @@ class ExerciseStatusAdapter(var items:ArrayList<Exercise>):
             }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemExerciseStatusBinding
-            .inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(ItemExerciseStatusBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -8,9 +8,15 @@ import com.kerollosragaie.workoutboost.databinding.ActivityBmiBinding
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-///! Next dev BMI Calculator functionality
-
 class BMIActivity : AppCompatActivity() {
+    //?Note: we can use the companion object without creating a new instance from class
+    companion object {
+        private const val METRIC_UNITS_VIEW = "METRIC_UNITS_VIEW"
+        private const val US_UNITS_VIEW = "US_UNITS_VIEW"
+    }
+
+    private var currentVisibleView: String = METRIC_UNITS_VIEW
+
     private lateinit var binding: ActivityBmiBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +26,11 @@ class BMIActivity : AppCompatActivity() {
 
         settingUpToolBar()
 
-        //For bmi
+        //For bmi calculation
         calculateBMI()
+
+        //For group buttons
+        setupRadioGroupBttns()
     }
 
     //*** For app toolbar
@@ -40,15 +49,7 @@ class BMIActivity : AppCompatActivity() {
     //*** Calculate BMI functionality
     private fun calculateBMI() {
         binding.btnCalculateUnits.setOnClickListener {
-            if (validateMetricUnits()) {
-                val heightValue: Float = binding.etMetricUnitHeight?.text.toString().toFloat() / 100
-                val weightValue: Float = binding.etMetricUnitWeight?.text.toString().toFloat()
-                val bmi = weightValue / (heightValue * heightValue)
-                displayBmiResults(bmi)
-            } else {
-                Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT)
-                    .show()
-            }
+            calculateUnits()
         }
 
     }
@@ -97,13 +98,78 @@ class BMIActivity : AppCompatActivity() {
     private fun validateMetricUnits(): Boolean {
         var isValid = true
 
-        if (binding?.etMetricUnitWeight?.text.toString().isEmpty()) {
+        if (binding.etMetricUnitWeight.text.toString().isEmpty()) {
             isValid = false
-        } else if (binding?.etMetricUnitHeight?.text.toString().isEmpty()) {
+        } else if (binding.etMetricUnitHeight.text.toString().isEmpty()) {
             isValid = false
         }
 
         return isValid
+    }
+
+    private fun calculateUnits(){
+        if(currentVisibleView == METRIC_UNITS_VIEW){
+            if (validateMetricUnits()) {
+                val heightValue: Float = binding.etMetricUnitHeight.text.toString().toFloat() / 100
+                val weightValue: Float = binding.etMetricUnitWeight.text.toString().toFloat()
+                val bmi = weightValue / (heightValue * heightValue)
+                displayBmiResults(bmi)
+            } else {
+                Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }else{
+            if (validateUsUnits()) {
+                val usUnitHeightValueFeet: Float = binding.etUsUnitHeightFeet.text.toString().toFloat()
+                val usUnitHeightValueInch: Float = binding.etUsUnitHeightInch.text.toString().toFloat()
+                val usUnitWeightValue: Float = binding.etUsUnitWeightPounds.text.toString().toFloat()
+                val heightValue = usUnitHeightValueInch + usUnitHeightValueFeet * 12
+                val bmi = 703 * (usUnitWeightValue / (heightValue * heightValue))
+                displayBmiResults(bmi)
+            } else {
+                Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+    private fun validateUsUnits(): Boolean {
+        var isValid = true
+
+        if (binding.etUsUnitWeightPounds.text.toString().isEmpty()) {
+            isValid = false
+        } else if (binding.etUsUnitHeightFeet.text.toString().isEmpty()) {
+            isValid = false
+        }else if (binding.etUsUnitHeightInch.text.toString().isEmpty()) {
+            isValid = false
+        }
+        return isValid
+    }
+
+    //*** Units group buttons (show/hide)
+    private fun setupRadioGroupBttns() {
+        binding.rgUnits.setOnCheckedChangeListener { _, checkedId: Int ->
+            currentVisibleView = if (checkedId == binding.rbMetricUnits.id) {
+                METRIC_UNITS_VIEW
+            } else {
+                US_UNITS_VIEW
+            }
+            unitsGroupButtonsVisibility()
+        }
+    }
+
+    private fun unitsGroupButtonsVisibility() {
+        if (currentVisibleView == METRIC_UNITS_VIEW) {
+            binding.clUsUnits.visibility = View.GONE
+            binding.clMetricUnits.visibility = View.VISIBLE
+            binding.llDisplayBMIResult.visibility = View.INVISIBLE
+            currentVisibleView = METRIC_UNITS_VIEW
+        } else {
+            binding.clMetricUnits.visibility = View.GONE
+            binding.clUsUnits.visibility = View.VISIBLE
+            binding.llDisplayBMIResult.visibility = View.INVISIBLE
+            currentVisibleView = US_UNITS_VIEW
+        }
+
     }
 
 }
