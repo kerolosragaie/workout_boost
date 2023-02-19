@@ -19,6 +19,9 @@
         android:theme="@style/Theme.WorkoutBoost"
         tools:targetApi="31">
         <activity
+            android:name=".activities.HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.BMIActivity"
             android:exported="false" />
         <activity

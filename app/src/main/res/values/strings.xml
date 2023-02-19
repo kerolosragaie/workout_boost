@@ -17,4 +17,5 @@
     <string name="metric_units">METRIC UNITS</string>
     <string name="us_units">US UNITS</string>
     <string name="your_bmi">YOUR BMI</string>
+    <string name="history">History</string>
 </resources>
