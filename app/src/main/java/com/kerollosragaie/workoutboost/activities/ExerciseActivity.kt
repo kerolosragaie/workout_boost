@@ -109,6 +109,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         customDialogShow()
         //super.onBackPressed()  //no need to it as it will finish current activity
