@@ -12,6 +12,8 @@
     <color name="colorPrimary">#4079FF</color>
     <color name="colorPrimaryDark">#4079FF</color>
     <color name="colorAccent">#008F24</color>
+    <color name="lightGray">#ADADAD</color>
+    <color name="red">#FF0000</color>
 
     <color name="toolbar_color_control_normal">#4079FF</color>
 </resources>

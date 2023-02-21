@@ -18,4 +18,5 @@
     <string name="us_units">US UNITS</string>
     <string name="your_bmi">YOUR BMI</string>
     <string name="history">History</string>
+    <string name="no_data_available">NO DATA AVAILABLE</string>
 </resources>

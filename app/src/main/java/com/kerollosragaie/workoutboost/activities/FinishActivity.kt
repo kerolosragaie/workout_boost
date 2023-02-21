@@ -4,7 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import com.kerollosragaie.workoutboost.WorkoutBoostApp
+import com.kerollosragaie.workoutboost.database.HistoryDao
+import com.kerollosragaie.workoutboost.database.HistoryEntity
 import com.kerollosragaie.workoutboost.databinding.ActivityFinishBinding
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FinishActivity : AppCompatActivity(), TextToSpeech.OnInitListener  {
@@ -22,9 +28,12 @@ class FinishActivity : AppCompatActivity(), TextToSpeech.OnInitListener  {
 
         settingUpTTS()
 
-        binding.btnFinish.setOnClickListener {
-            finish()
-        }
+        setupButtons()
+
+        //*** For history database
+        val historyDao = (application as WorkoutBoostApp).historyDb.historyDao()
+        addDateToHistoryDb(historyDao)
+
     }
 
     //*** For app toolbar
@@ -49,10 +58,32 @@ class FinishActivity : AppCompatActivity(), TextToSpeech.OnInitListener  {
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "The Language specified is not supported!")
             }
+            speakOut("Congratulations! You have completed the workout.")
         } else {
             Log.e("TTS", "Initialization failed!")
         }
-        speakOut("Congratulations! You have completed the workout.")
+
+    }
+
+    //*** Setup activity buttons
+    private fun setupButtons(){
+        binding.btnFinish.setOnClickListener {
+            finish()
+        }
+    }
+
+    //*** For database
+    private fun addDateToHistoryDb(historyDao: HistoryDao){
+        val calendar = Calendar.getInstance()
+        val dateTime = calendar.time
+
+        val sdf = SimpleDateFormat("dd MMM yyyy hh:mm:ss", Locale.getDefault())
+        val date = sdf.format(dateTime)
+
+        lifecycleScope.launch{
+           historyDao.insert(HistoryEntity(date))
+            Log.e("Date","Added $date")
+        }
     }
 
     override fun onDestroy() {

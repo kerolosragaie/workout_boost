@@ -11,6 +11,7 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerollosragaie.workoutboost.Constants
 import com.kerollosragaie.workoutboost.R
@@ -204,7 +205,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setExerciseProgressBar(pauseOffset)
     }
 
-    @SuppressLint("SetTextI18n")
+
     private fun setExerciseProgressBar(pauseOffsetL: Long) {
         if (binding.exerciseLayout.exerciseLayout.visibility == View.GONE) {
             binding.exerciseLayout.exerciseLayout.visibility = View.VISIBLE
@@ -225,6 +226,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         exerciseCountDownTimer =
             object : CountDownTimer((((exercisePractiseTime + 1) * 1000).toLong() - pauseOffsetL), 1000) {
+
+                @SuppressLint("SetTextI18n")
                 override fun onTick(millisUntilFinish: Long) {
                     pauseOffset = ((exercisePractiseTime + 1) * 1000) - millisUntilFinish
                     exerciseProgress++
@@ -245,9 +248,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     if (currentExercisePosition < exercisesList!!.size - 1) {
                         setUpRestCountDownTimer()
                     } else {
+                        finish()
                         val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
                         startActivity(intent)
-                        finish()
                     }
                     pauseOffset=0
                 }
