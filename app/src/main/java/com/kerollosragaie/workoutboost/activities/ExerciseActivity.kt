@@ -204,6 +204,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setExerciseProgressBar(pauseOffset)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setExerciseProgressBar(pauseOffsetL: Long) {
         if (binding.exerciseLayout.exerciseLayout.visibility == View.GONE) {
             binding.exerciseLayout.exerciseLayout.visibility = View.VISIBLE
