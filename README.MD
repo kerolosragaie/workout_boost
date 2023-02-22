@@ -16,7 +16,7 @@ Practice workouts daily
 
 Saves your last workout time locally using ROOM database
 
-<img src="2-history.gif" width="350" height="560"/>
+<img src="Images/2-history.gif" width="350" height="560"/>
 
 Calcualtes your BMI (Metric/US units)
 
