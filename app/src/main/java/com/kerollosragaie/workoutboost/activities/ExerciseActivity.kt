@@ -11,7 +11,6 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kerollosragaie.workoutboost.Constants
 import com.kerollosragaie.workoutboost.R
@@ -103,7 +102,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         dialogBinding.btnNo.setOnClickListener {
             customDialog.dismiss()
-            setExerciseProgressBar(pauseOffset+1000) //+1000 to prevent counter reach -1 (if +2000 so counter reaches -2)
+            if(pauseOffset!=0L){
+                setExerciseProgressBar(pauseOffset+1000) //+1000 to prevent counter reach -1 (if +2000 so counter reaches -2)
+            }
         }
 
         customDialog.show()
@@ -159,6 +160,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         binding.restLayout.progressBar.progress = restProgress
         binding.restLayout.tvUpcomingExercise.text =
             exercisesList!![currentExercisePosition + 1].getName()
+        val restTime = exercisesList!![currentExercisePosition + 1].getRestingTime()
 
         //For media player to play sounds
         try {
@@ -175,8 +177,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         /**
          * @countDownInterval every 1 sec (1000 ms) onTick function works
          * */
-        restCountDownTimer = object : CountDownTimer(1000, 1000) {
-            override fun onTick(p0: Long) {
+        restCountDownTimer = object : CountDownTimer((restTime * 1000).toLong() , 1000) {
+            override fun onTick(millisUntilFinish: Long) {
                 restProgress++
                 binding.restLayout.progressBar.progress = (exercisesList!![currentExercisePosition + 1].getRestingTime()) - restProgress
                 binding.restLayout.tvTimer.text = ((exercisesList!![currentExercisePosition + 1].getRestingTime()) - restProgress).toString()
@@ -192,6 +194,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 exerciseAdapter.notifyDataSetChanged()
 
                 setUpExerciseCountDownTimer()
+                pauseOffset = 0
             }
         }.start()
     }
